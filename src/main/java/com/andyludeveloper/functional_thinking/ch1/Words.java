@@ -26,7 +26,7 @@ public class Words {
         }
     };
 
-    public Map wordFreq(String words) {
+    public Map<String, Integer> wordFreq(String words) {
         TreeMap<String, Integer> wordMap = new TreeMap<String, Integer>();
         Matcher m = Pattern.compile("\\w+").matcher(words);
         while (m.find()) {
@@ -37,23 +37,22 @@ public class Words {
                 } else {
                     wordMap.put(word, wordMap.get(word) + 1);
                 }
-
             }
         }
         return wordMap;
     }
 
-    public Map wordFreqFP(String words){
+    public Map<String, Integer> wordFreqFP(String words){
         TreeMap<String, Integer> wordMap = new TreeMap<>();
         regexToList(words, "\\w+").stream()
-                .map(w -> w.toLowerCase())
+                .map(String::toLowerCase)
                 .filter(w -> !NON_WORDS.contains(w))
                 .forEach(w -> wordMap.put(w, wordMap.getOrDefault(w, 0)+1));
         return wordMap;
     }
 
     private List<String> regexToList(String words, String regex){
-        List wordList = new ArrayList();
+        List<String> wordList = new ArrayList<>();
         Matcher m = Pattern.compile(regex).matcher(words);
         while(m.find())wordList.add(m.group());
         return wordList;
